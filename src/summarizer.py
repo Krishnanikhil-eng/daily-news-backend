@@ -1,9 +1,21 @@
-def simple_summary(text, max_sentences=3):
+from transformers import pipeline
+
+# Load AI summarization model (BART)
+summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
+
+def ai_summary(text):
     """
-    Create a simple summary by taking first few sentences.
+    Generate an AI-powered summary from article text.
     """
 
-    sentences = text.split(".")          # split text into sentences
-    summary = sentences[:max_sentences]  # take first N sentences
+    # Limit length because the model has max token size
+    text = text[:2000]
 
-    return ". ".join(summary).strip() + "."
+    summary = summarizer(
+        text,
+        max_length=130,
+        min_length=40,
+        do_sample=False
+    )
+
+    return summary[0]["summary_text"]

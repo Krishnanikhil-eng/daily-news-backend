@@ -1,7 +1,7 @@
 from src.rss_fetcher import fetch_rss
 from src.scraper import get_article_text
 from src.cleaner import clean_text
-from src.summarizer import simple_summary
+from src.summarizer import ai_summary
 from src.database import init_db, save_news
 
 def run_pipeline():
@@ -21,7 +21,7 @@ def run_pipeline():
             clean_article = clean_text(raw_text)
 
             # generate normal summary (no AI)
-            summary = simple_summary(clean_article)
+            summary = ai_summary(clean_article)
 
             # save to database
             save_news(entry.title, entry.link, summary)
